@@ -1,0 +1,40 @@
+from collections import defaultdict 
+def highest_probability(text): 
+
+# Step 1: 
+   Tokenize the text into words 
+    words = text.split() 
+# Step 2:
+
+  Count occurrences of each word and bigrams (w1, w2) 
+  bigram_counts = defaultdict(lambda: 
+   defaultdict(int))     
+   word_counts = defaultdict(int) 
+   for i in range(len(words) - 1):        
+     w1 = words[i]         
+     w2 = words[i + 1] 
+
+# Count bigrams 
+  bigram_counts[w1][w2] += 1
+
+# Count occurrences of words        
+   word_counts[w1] += 1 
+# Step 3: Calculate probabilities and find the highest     
+    result = {}     
+    for w1 in bigram_counts:         
+      max_prob = 0         
+      best_w2 = None        
+   for w2 in bigram_counts[w1]: 
+     prob = bigram_counts[w1][w2] / word_counts[w1]  
+# Probability calculation            
+ if prob > max_prob:                
+   max_prob = prob                 
+   best_w2 = w2 
+   result[w1] = (best_w2, max_prob) 
+  return result 
+
+# MAIN PROGRAM 
+text = "Education empowers students to learn and education helps teachers to guide and education creates opportunities to learn and grow in education systems around the world." 
+output = highest_probability(text) 
+print("Highest probability of a word (w2) occurring after another word (w1):") for w1, (w2, prob) in output.items(): 
+print(f"After '{w1}' -> '{w2}' with probability {prob:.2f}") 
