@@ -1,0 +1,43 @@
+import nltk from nltk.corpus 
+import wordnet nltk.download('wordnet')
+nltk.download('omw-1.4') 
+def get_hyponyms(word):
+  hyponyms = set() 
+for syn in wordnet.synsets(word): 
+ for hypo in syn.hyponyms(): 
+  for lemma in hypo.lemmas(): 
+  hyponyms.add(lemma.name()) 
+   return sorted(hyponyms) 
+def get_polysemy(word): 
+ senses = wordnet.synsets(word) 
+ return senses if senses else None 
+ def get_homonyms(word): 
+ homonyms = set() 
+original_senses = wordnet.synsets(word) 
+for sense in original_senses: 
+ for lemma in sense.lemmas(): 
+if lemma.name() != word: other_senses = 
+wordnet.synsets(lemma.name()) 
+for osyn in other_senses: 
+if osyn.name().split('.')[0] == lemma.name(): 
+ for osyn_lemma in osyn.lemmas(): 
+homonyms.add(osyn_lemma.name()) 
+return sorted(homonyms) 
+def display_word_relations(word): 
+print(f"\nword: {word}\n{'-'*40}") 
+hypos = get_homonyms(word) print("\nHyponyms 
+(More specific types):") 
+print(', '.join(hypos) 
+if hypos else "No hyponyms found.") 
+senses = get_polysemy(word) 
+print(f"\n polysemy (Number of meanings): 
+ {len(senses)}") for i , sense in enumerate(senses,1): 
+print(f"{i},{sense.definition()}") 
+homs = get_homonyms(word) 
+print("\nHomonyms (Words with the same 
+spelling but different meanings):") 
+print(', '.join(homs) if homs else "No homonyms found.") 
+if __name__ == "__main__": 
+input_word = input("Enter a word: ").strip().lower() 
+display_word_relations(input_word) 
+
