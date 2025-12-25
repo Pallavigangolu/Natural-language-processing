@@ -1,0 +1,25 @@
+import pandas as pd import numpy as np 
+corpus = ['data science is one of the most important fields of science', 
+          'this is one of the best data science courses', 
+          'data scientists analyze data'] 
+words_set = set() 
+ 
+for doc in corpus: 
+    words = doc.split(' ') 
+    words_set = words_set.union(set(words)) 
+ 
+words_set.discard('') 
+print('Number of words in the corpus:', len(words_set))
+print('The words in the corpus: \n', words_set) 
+n_docs = len(corpus) n_words_set = len(words_set) 
+df_tf = pd.DataFrame(np.zeros((n_docs, n_words_set)), columns=list(words_set)) 
+ 
+# Compute Term Frequency (TF) 
+for i in range(n_docs): 
+  words = [word for word in corpus[i].split(' ') if word ]   
+for w in words:     
+  df_tf[w][i] = df_tf[w][i] + (1 / len(words)) 
+ 
+df_tf 
+#Dataframe shows the frequency of each word in each document, 
+# a column for each word and a row for each document.
